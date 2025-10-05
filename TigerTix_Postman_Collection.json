@@ -1,0 +1,200 @@
+{
+  "info": {
+    "name": "TigerTix API",
+    "description": "Clemson University TigerTix ticket management system API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://localhost:3000",
+      "type": "string"
+    }
+  ],
+  "item": [
+    {
+      "name": "Events",
+      "item": [
+        {
+          "name": "Create Event",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"title\": \"Football Game - Clemson vs Georgia\",\n  \"description\": \"Death Valley showdown\",\n  \"start_time\": \"2025-10-25 15:30:00\",\n  \"end_time\": \"2025-10-25 18:30:00\",\n  \"address\": \"Memorial Stadium\",\n  \"num_tickets\": 10,\n  \"organizerID\": 1,\n  \"ticket_price\": 75.00\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/events",
+              "host": ["{{baseUrl}}"],
+              "path": ["events"]
+            },
+            "description": "Creates a new event and automatically generates the specified number of tickets"
+          }
+        },
+        {
+          "name": "Get All Events",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{baseUrl}}/events",
+              "host": ["{{baseUrl}}"],
+              "path": ["events"]
+            },
+            "description": "Retrieves all events in the database"
+          }
+        },
+        {
+          "name": "Check Event Availability",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{baseUrl}}/events/1/availability",
+              "host": ["{{baseUrl}}"],
+              "path": ["events", "1", "availability"]
+            },
+            "description": "Gets ticket availability statistics for a specific event"
+          }
+        },
+        {
+          "name": "Get Available Tickets for Event",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{baseUrl}}/events/1/tickets",
+              "host": ["{{baseUrl}}"],
+              "path": ["events", "1", "tickets"]
+            },
+            "description": "Lists all available tickets for a specific event"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Ticket Purchases",
+      "item": [
+        {
+          "name": "Buy Specific Ticket",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"buyerID\": 123,\n  \"payment_method\": \"credit_card\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/tickets/1/buy",
+              "host": ["{{baseUrl}}"],
+              "path": ["tickets", "1", "buy"]
+            },
+            "description": "Purchases a specific ticket by ticket ID"
+          }
+        },
+        {
+          "name": "Buy Any Available Ticket",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"buyerID\": 456,\n  \"payment_method\": \"debit_card\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/events/1/buy-ticket",
+              "host": ["{{baseUrl}}"],
+              "path": ["events", "1", "buy-ticket"]
+            },
+            "description": "Purchases any available ticket for an event (auto-assigns seat)"
+          }
+        }
+      ]
+    },
+    {
+      "name": "User Management",
+      "item": [
+        {
+          "name": "Get User's Purchased Tickets",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{baseUrl}}/users/123/tickets",
+              "host": ["{{baseUrl}}"],
+              "path": ["users", "123", "tickets"]
+            },
+            "description": "Retrieves all tickets purchased by a specific user"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Manual Ticket Creation",
+      "item": [
+        {
+          "name": "Create Individual Ticket",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"eventID\": 1,\n  \"seat_number\": \"VIP-001\",\n  \"price\": 150.00,\n  \"buyerID\": null\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/tickets",
+              "host": ["{{baseUrl}}"],
+              "path": ["tickets"]
+            },
+            "description": "Creates an individual ticket manually"
+          }
+        }
+      ]
+    }
+  ],
+  "event": [
+    {
+      "listen": "test",
+      "script": {
+        "type": "text/javascript",
+        "exec": [
+          "// Basic response validation",
+          "pm.test(\"Status code is successful\", function () {",
+          "    pm.expect(pm.response.code).to.be.oneOf([200, 201]);",
+          "});",
+          "",
+          "pm.test(\"Response has required structure\", function () {",
+          "    const responseJson = pm.response.json();",
+          "    pm.expect(responseJson).to.be.an('object');",
+          "});",
+          "",
+          "// Save important IDs for subsequent requests",
+          "if (pm.response.json().ticketID) {",
+          "    pm.environment.set(\"lastTicketID\", pm.response.json().ticketID);",
+          "}",
+          "",
+          "if (pm.response.json().eventID) {",
+          "    pm.environment.set(\"lastEventID\", pm.response.json().eventID);",
+          "}"
+        ]
+      }
+    }
+  ]
+}
