@@ -1,0 +1,14 @@
+{
+  "name": "tigertix",
+  "version": "1.0.0",
+  "description": "Clemson TigerTix ticket management system",
+  "main": "TigerTix.js",
+  "scripts": {
+    "start": "node TigerTix.js"
+  },
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^4.21.2",
+    "sqlite3": "^5.1.7"
+  }
+}
