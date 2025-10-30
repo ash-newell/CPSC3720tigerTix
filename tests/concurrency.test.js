@@ -1,7 +1,11 @@
+/**
+ * verifies database consistency with simultaneous requests
+ */
 import request from "supertest";
 import app from "../backend/client-service/server.js";
 
 describe("Database Concurrency", () => {
+//test 1 - prevents double booking
   it("prevents double booking", async () => {
     const eventId = 1;
     const [res1, res2] = await Promise.all([
