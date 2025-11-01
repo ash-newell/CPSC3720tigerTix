@@ -9,6 +9,6 @@ import { listEvents, purchaseTicket } from "../controllers/clientController.js";
 const router = express.Router();
 
 router.get("/events", listEvents);
-router.post("/events/:id/buy-ticket", purchaseTicket);
+router.post("/events/:id/purchase", purchaseTicket);
 
 export default router;

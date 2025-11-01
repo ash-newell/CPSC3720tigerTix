@@ -1,10 +1,5 @@
-/**
- * @file tests/concurrency.test.js
- * @description Ensures ticket purchase operations are transaction-safe.
- */
-
 import request from "supertest";
-import app from "../backend/client-service/server.js"; // your running client app
+import app from "../backend/client-service/server.js";
 
 describe("Database Concurrency", () => {
   it("prevents double booking when two users purchase at once", async () => {
