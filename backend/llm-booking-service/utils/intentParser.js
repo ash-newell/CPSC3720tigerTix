@@ -31,8 +31,6 @@ export function parseIntent(message) {
   // we want to handle both numbers and words like “2” or “two”
   // also optional “ticket” word and we need to grab the event name at end
   // ex “book two tickets for jazz night” → qty=2 event=jazz night
-  //
-  // regex time. write it once then break it down below.
 
   const bookRe = /book\s*(\d+|one|two|three|four|five|six|seven|eight|nine|ten)?\s*(?:tickets?|ticket)?\s*for\s+(.+)$/i
 
@@ -85,7 +83,7 @@ export function parseIntent(message) {
   // ex “yes book jazz night” or “yes please book that one”
   if (/^yes\b.*\bbook\b/.test(lower))
     return { intent: "confirm", event: null, quantity: null }
-  // controller will reuse stored event + qty context from earlier booking step
+  // controller will reuse stored event and qty context from earlier booking step
 
 
   // GREETING INTENT  
@@ -93,7 +91,7 @@ export function parseIntent(message) {
   // mostly for fun and UX but also helps greet before parsing fails
   if (/^(hi|hello|hey)\b/.test(lower))
     return { intent: "greet", event: null, quantity: null }
-  // ex “hey there” → greet
+  // ex “hey "  = greet
 
 
   // FALLBACK  
@@ -104,9 +102,8 @@ export function parseIntent(message) {
 
 
 // NOTES  
-// this file = small but central brain for interpreting user msg  
 // chatController imports this and decides what to do next  
 // parseOnly just returns parsed json (for debug/test)  
 // handleChat adds logic like show events or confirm booking  
 // so basically this fxn tells chatController what kind of msg it is
-// aka “intent classifier but with regex instead of AI”
+// aka intent classifier but with regex and simple parsing

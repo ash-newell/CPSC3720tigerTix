@@ -1,6 +1,6 @@
 /**
  * @file admin.test.js
- * @description Integration tests for Admin Service endpoints.
+ * @description Integration tests for Admin Service endpoints
  */
 
 import request from "supertest";
