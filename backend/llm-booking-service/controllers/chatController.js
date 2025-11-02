@@ -59,11 +59,8 @@ export const parseOnly = (req, res) => {
 // main convo engine of llm-service
 export const handleChat = (req, res) => {
 
-  // destruct msg from req.body
-  // default {}prevents crash if body undefined
-  const { message } = req.body || {};
-
-  // same guard as parseOnly make sure we actually got msg input
+  // grab message text from common field names (message, transcript, or text)
+  const message = (req.body && (req.body.message || req.body.transcript || req.body.text));
   if (!message) return res.status(400).json({ error: "Message required" });
 
   // lower = lowercase version for regex + keyword matching
