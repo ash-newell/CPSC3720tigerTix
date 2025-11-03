@@ -1,0 +1,1 @@
+CREATE TABLE IF NOT EXISTS Events (eventID INTEGER PRIMARY KEY AUTOINCREMENT, title TEXT, description TEXT, start_time TEXT, end_time TEXT, address TEXT, num_tickets INTEGER, organizerID INTEGER);CREATE TABLE IF NOT EXISTS Tickets (ticketID INTEGER PRIMARY KEY AUTOINCREMENT, eventID INTEGER, seat_number TEXT, price REAL, status TEXT, buyerID INTEGER, purchase_time TEXT);
