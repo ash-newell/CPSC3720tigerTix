@@ -36,7 +36,7 @@ function App() {
   const handlePurchase = async (eventID) => {
     setMessage("");
     try {
-      const response = await fetch(`${BASE_URL}/${eventID}/buy-ticket`, {
+      const response = await fetch(`${BASE_URL}/${eventID}/purchase`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ buyerID: 1 }),
