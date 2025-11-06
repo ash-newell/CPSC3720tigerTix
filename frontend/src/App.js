@@ -72,6 +72,9 @@ function App() {
         setEvents(refreshed);
       } else if (response.status === 401) {
         setMessage(respBody.message || "Not authenticated — please log in.");
+        // Token expired or not authenticated — show login UI so user can re-authenticate
+        setCurrentUser(null);
+        setAuthMode('login');
       } else {
         setMessage(respBody.message || `Purchase failed (status ${response.status}). Please try again.`);
       }
