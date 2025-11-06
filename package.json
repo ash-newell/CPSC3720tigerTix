@@ -6,6 +6,7 @@
   "type": "module",
   "scripts": {
     "start": "cd frontend && npm start",
+    "start:all": "concurrently -k -n admin,client,llm,auth,frontend \"cd backend/admin-service && node server.js\" \"cd backend/client-service && node server.js\" \"cd backend/llm-booking-service && node server.js\" \"cd backend/user-authentication && npm start\" \"cd frontend && npm start\"",
     "test": "NODE_OPTIONS=--experimental-vm-modules jest --runInBand"
   },
   "dependencies": {
@@ -16,6 +17,7 @@
   },
   "devDependencies": {
     "jest": "^29.7.0",
-    "supertest": "^7.1.4"
+    "supertest": "^7.1.4",
+    "concurrently": "^8.0.0"
   }
 }
